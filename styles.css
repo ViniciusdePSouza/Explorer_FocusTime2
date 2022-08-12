@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-size: 62.5%;
+
+    --selection-color: #02799D;
+    --bg-color: #ffffff;
+    --text-color: #323238;
+    --card-bg: #cececf;
+    --card-selected: #02799D;
+    --dark-svg: #C4C4CC;
+    --dark-card-bg: #29292E;
+
+}
+
+.hide{
+    display: none;
+}
+
+body {
+    display: grid;
+    min-height: 100vh;
+}
+
+header {
+    justify-self: end;
+
+    margin-top: 3rem;
+    margin-right: 6rem;
+}
+
+main {
+    justify-self: center;
+    align-self: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 20rem;
+
+    margin-bottom: 15rem
+}
+
+#timer {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12.6rem;
+    line-height: 14.8rem;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 4.8rem;
+}
+
+#controls-wrapper {
+    display: flex;
+    gap: 4rem;
+}
+
+
+button {
+    background-color: transparent;
+    border: none;
+
+    cursor: pointer;
+}
+
+#paddind-sounds {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.2rem;
+}
+
+.card {
+    width: 14rem;
+    height: 15rem;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    background-color: var(--card-bg);
+
+    border-radius: 2.4rem;
+
+    gap: 2.5rem;
+}
+
+.slider{
+    display:grid;
+}
+
+.slider svg{
+   justify-self: center;
+}
+
+.card-selected{
+    background-color: var(--card-selected);
+}
+
+.card-selected svg path {
+    fill: #ffffff;
+}
+
+.slider-selected svg rect,
+.slider-selected svg circle{
+    fill: #ffffff;
+
+    cx: 35px;
+}
+
+.dark-theme button svg path {
+    fill: #C4C4CC;
+}
+
+.dark-theme{
+    color: #ffffff;
+}
+
+.slider .dark-theme svg rect,
+.slider .dark-theme svg circle{
+    fill: #ffffff;
+}
+
+.dark-body {
+    background-color: #121214;
+}
