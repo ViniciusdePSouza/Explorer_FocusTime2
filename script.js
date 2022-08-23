@@ -14,27 +14,26 @@ const secondsDisplay = document.querySelector('#seconds')
 let minutesSeted = 25
 let secondsSeted = 0
 
-let timerPause
+let timerPause = 0
 
 const forest = {
-    card:  document.querySelector('#card1'),
-    slider: document.querySelector('#slider1')
-
+    card: document.querySelector('#card-forest'),
+    slider: document.querySelector('#slider-forest')
 }
 
 const rain = {
-    card: document.querySelector('#card2'),
-    slider: document.querySelector('#slider2')
+    card: document.querySelector('#card-rain'),
+    slider: document.querySelector('#slider-rain')
 }
 
 const firePlace = {
-    card: document.querySelector('#card4'),
-    slider: document.querySelector('#slider4')
+    card: document.querySelector('#card-fireplace'),
+    slider: document.querySelector('#slider-fireplace')
 }
 
 const coffeShop = {
-    card: document.querySelector('#card3'),
-    slider: document.querySelector('#slider3')
+    card: document.querySelector('#card-coffee-shop'),
+    slider: document.querySelector('#slider-coffee-shop')
 }
 
 const forestAudio = new Audio('./sounds/Floresta.wav')
@@ -53,42 +52,48 @@ function countdown() {
     timerPause = setTimeout(function () {
         seconds = Number(secondsDisplay.textContent)
         minutes = Number(minutesDisplay.textContent)
-        
-        
-        if(minutes <= 0 && seconds <= 0){
+
+        if (minutes <= 0 && seconds <= 0) {
             kitchenTimer.play()
             togglePlayPause()
             return
         }
-        
-        if(seconds <= 0){
+
+        if (seconds <= 0) {
             seconds = 60
-            
+
             --minutes
         }
-        
-        secondsDisplay.textContent = String(seconds - 1).padStart(2,"0")
-        minutesDisplay.textContent = String(minutes).padStart(2,"0")
 
+        --seconds
+
+        secondsDisplay.textContent = String(seconds).padStart(2, "0")
+        minutesDisplay.textContent = String(minutes).padStart(2, "0")
 
         countdown()
     }, 1000)
 }
 
-function resetTimer(){
-    minutesDisplay.textContent =  String(minutesSeted).padStart(2,"0")
-    secondsDisplay.textContent = String(secondsSeted).padStart(2,"0")
+function resetTimer() {
+    minutesDisplay.textContent = String(minutesSeted).padStart(2, "0")
+    secondsDisplay.textContent = String(secondsSeted).padStart(2, "0")
 }
 
 function addTimer() {
-    minutesDisplay.textContent = String(Number(minutesDisplay.textContent) + 5).padStart(2,"0")
+    minutesDisplay.textContent = String(Number(minutesDisplay.textContent) + 5).padStart(2, "0")
     minutesSeted = minutesDisplay.textContent
     secondsSeted = 0
 }
 
 function decreaseTimer() {
-    minutesDisplay.textContent = String(Number(minutesDisplay.textContent) - 5).padStart(2,"0")
+    minutesDisplay.textContent = String(Number(minutesDisplay.textContent) - 5).padStart(2, "0")
     minutesSeted = minutesDisplay.textContent
+    
+    if(minutesSeted < 0) {
+        alert('Não é possível diminuir mais o tempo')
+        minutesDisplay.textContent = String(0).padStart(2, "0")
+    }
+    
     secondsSeted = 0
 }
 
@@ -97,48 +102,18 @@ function togglePlayPause() {
     pauseButton.classList.toggle('hide')
 }
 
-function selectCard1() {
-    card1.classList.toggle('card-selected')
-    slider1.classList.toggle('slider-selected')
-
-    if(card1.classList.value.indexOf('card-selected') == -1) {
-        forestAudio.pause()
-    } else {
-        forestAudio.play()
-    }
+function selectCard(card) {
+    card.card.classList.toggle('card-selected')
+    card.slider.classList.toggle('slider-selected')
 }
 
-function selectCard2() {
-    rain.card.classList.toggle('card-selected')
-    rain.slider.classList.toggle('slider-selected')
-
-    if(rain.card.classList.value.indexOf('card-selected') == -1) {
-        rainningAudio.pause()
+function playBgAudio(card, audio) {
+    if (card.card.classList.value.indexOf('card-selected') == -1) {
+        audio.pause()
     } else {
-        rainningAudio.play()
+        audio.play()
     }
 }
-function selectCard3() {
-    coffeShop.card.classList.toggle('card-selected')
-    coffeShop.slider.classList.toggle('slider-selected')
-
-    if(coffeShop.card.classList.value.indexOf('card-selected') == -1) {
-        coffeShopAudio.pause()
-    } else {
-        coffeShopAudio.play()
-    }
-}
-function selectCard4() {
-    firePlace.card.classList.toggle('card-selected')
-    firePlace.slider.classList.toggle('slider-selected')
-
-    if(firePlace.card.classList.value.indexOf('card-selected') == -1) {
-        firePlaceAudio.pause()
-    } else {
-        firePlaceAudio.play()
-    }
-}
-
 
 function swtichIcons() {
     sunSwitch.classList.toggle('hide')
@@ -150,54 +125,58 @@ function toggleDarkTheme() {
     body.classList.toggle('dark-body')
 }
 
-sunSwitch.addEventListener('click', function(){
+sunSwitch.addEventListener('click', function () {
     swtichIcons()
     toggleDarkTheme()
 })
 
 
-moonSwitch.addEventListener('click', function(){
+moonSwitch.addEventListener('click', function () {
     swtichIcons()
     toggleDarkTheme()
 })
 
-card1.addEventListener('click', function(){
-    selectCard1()
+forest.card.addEventListener('click', function () {
+    selectCard(forest)
+    playBgAudio(forest, forestAudio)
 })
-card2.addEventListener('click', function(){
-    selectCard2()
+rain.card.addEventListener('click', function () {
+    selectCard(rain)
+    playBgAudio(rain, rainningAudio)
 })
-card3.addEventListener('click', function(){
-    selectCard3()
+coffeShop.card.addEventListener('click', function () {
+    selectCard(coffeShop)
+    playBgAudio(coffeShop, coffeShopAudio)
 })
 
-firePlace.card.addEventListener('click', function(){
-    selectCard4()
+firePlace.card.addEventListener('click', function () {
+    selectCard(firePlace)
+    playBgAudio(firePlace, firePlaceAudio)
 })
 
-playButton.addEventListener('click', function(){
+playButton.addEventListener('click', function () {
     pressButtonAudio.play()
     togglePlayPause()
     countdown()
 })
 
-pauseButton.addEventListener('click', function(){
+pauseButton.addEventListener('click', function () {
     pressButtonAudio.play()
     clearTimeout(timerPause)
     togglePlayPause()
 })
 
-stopButton.addEventListener('click', function(){
+stopButton.addEventListener('click', function () {
     pressButtonAudio.play()
     resetTimer()
 })
 
-addButton.addEventListener('click', function(){
+addButton.addEventListener('click', function () {
     pressButtonAudio.play()
     addTimer()
 })
 
-decreaseButton.addEventListener('click', function(){
+decreaseButton.addEventListener('click', function () {
     pressButtonAudio.play()
     decreaseTimer()
 })
